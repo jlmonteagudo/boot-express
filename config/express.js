@@ -7,7 +7,7 @@ var express = require('express'),
 module.exports = function (app) {
 
   app.configure('development', function() {
-    app.use(express.errorHandler());
+    //app.use(express.errorHandler());
   });
 
   app.configure('production', function() {
@@ -22,9 +22,14 @@ module.exports = function (app) {
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-
     app.use(app.router);
+    app.use(errorHandler);
 
   });
+
+
+  function errorHandler(err, req, res) {
+    res.json(404, {'code': 'internal-error', 'message' : err.message});
+  }
 
 };

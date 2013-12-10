@@ -4,6 +4,7 @@ var request = require('supertest');
 
 request = request('http://localhost:3000');
 
+
 describe('User API', function () {
 
 	describe('GET /users - list', function() {
@@ -88,7 +89,7 @@ describe('User API', function () {
 				.expect(404)
 				.end(function(err, res) {
 					if (err) { return done(err); }
-					expect(res.body.error).toEqual('not-found');
+					expect(res.body.code).toEqual('not-found');
 					done();
 				});
 
@@ -104,7 +105,7 @@ describe('User API', function () {
 				.expect(404)
 				.end(function(err, res) {
 					if (err) { return done(err); }
-					expect(res.body.error).toEqual('not-found');
+					expect(res.body.code).toEqual('not-found');
 					done();
 				});
 
@@ -117,7 +118,7 @@ describe('User API', function () {
 
 
 
-	describe('PUT /users', function() {
+	describe('PUT /users - update', function() {
 
 		it('retrieves and updates a user', function (done) {
 
@@ -161,7 +162,7 @@ describe('User API', function () {
 						.expect(400)
 						.end(function(err, res) {
 							if (err) { return done(err); }
-							expect(res.body.name).toEqual('CastError');
+							expect(res.body.code).toEqual('update-error');
 							done();
 						});
 
@@ -187,7 +188,7 @@ describe('User API', function () {
 						.expect(404)
 						.end(function(err, res) {
 							if (err) { return done(err); }
-							expect(res.body.error).toEqual('not-found');
+							expect(res.body.code).toEqual('not-found');
 							done();
 						});
 
@@ -198,6 +199,109 @@ describe('User API', function () {
 
 
 	});
+
+
+
+	describe('POST /users - create', function() {
+
+		it('creates a new user', function (done) {
+
+			var guilavogui = {
+				'name': 'Joshua',
+				'surname': 'Guilavogui',
+				'age': 23
+			};
+
+			request
+				.post('/api/users')
+				.send(guilavogui)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) { return done(err); }
+					expect(res.body.age).toEqual(23);
+					done();
+				});
+
+		});
+
+
+		it('fails creating a user with wrong data', function (done) {
+
+			var guilavogui = {
+				'name': 'Joshua',
+				'surname': 'Guilavogui',
+				'age': 'abc'
+			};
+
+			request
+				.post('/api/users')
+				.send(guilavogui)
+				.expect(400)
+				.end(function(err, res) {
+					if (err) { return done(err); }
+					expect(res.body.code).toEqual('create-error');
+					done();
+				});
+
+		});
+
+
+	});
+
+
+
+	describe('DEL /users - delete', function() {
+
+		it('creates and deletes a user', function (done) {
+
+			var deleteUser = {
+				'name': 'delete',
+				'surname': 'surname',
+				'age': 23
+			};
+
+
+			request
+				.post('/api/users')
+				.send(deleteUser)
+				.expect(200)
+				.end(function(err, res) {
+					if (err) { return done(err); }
+
+					deleteUser = res.body;
+
+					request
+						.del('/api/users/' + deleteUser._id)
+						.expect(200)
+						.end(function(err, res) {
+							if (err) { return done(err); }
+							expect(res.body._id).toEqual(deleteUser._id);
+							done();
+						});
+
+				});
+
+
+
+		}); // end - it creates and deletes a user
+
+
+
+		it('fails deleting an user id that does not exist', function (done) {
+
+			request
+				.del('/api/users/xxa49eb764e2a1315d000001')
+				.expect(404)
+				.end(function(err, res) {
+					if (err) { return done(err); }
+					expect(res.body.code).toEqual('not-found');
+					done();
+				});
+
+		});
+
+
+	}); // end - describe DEL /users - delete
 
 
 
