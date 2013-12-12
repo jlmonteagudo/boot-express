@@ -28,21 +28,24 @@ module.exports = function (grunt) {
 				options: {
 					script: 'server.js',
 					node_env: 'development',
-					debug: true
+					debug: true,
+					port: 3000
 				}
 			},
 
 			prod: {
 				options: {
 					script: 'server.js',
-					node_env: 'production'
+					node_env: 'production',
+					port: 3000
 				}
 			},
 
 			test: {
 				options: {
 					script: 'server.js',
-					node_env: 'test'
+					node_env: 'test',
+					port: 3001
 				}
 			}
 		},
@@ -82,9 +85,11 @@ module.exports = function (grunt) {
 	});
 
 
-	grunt.registerTask('default', [ 'jshint', 'jasmine_node' ]);
+	grunt.registerTask('default', [ 'jshint' ]);
 
 	grunt.registerTask('server', [ 'jshint', 'express:dev', 'watch' ]);
+
+	grunt.registerTask('test', [ 'jshint', 'express:test', 'jasmine_node' ]);
 
 
 };

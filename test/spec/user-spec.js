@@ -2,7 +2,7 @@
 
 var request = require('supertest');
 
-request = request('http://localhost:3000');
+request = request('http://localhost:3001');
 
 
 describe('User API', function () {
