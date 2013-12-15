@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-	User = mongoose.model('User');
+	User = mongoose.model('User'),
+	Message = mongoose.model('Message');
 
 User.find({}).remove(function() {
 	User.create(
@@ -117,3 +118,22 @@ User.find({}).remove(function() {
 			}
 		);
 });
+
+
+
+Message.find({}).remove(function() {
+	Message.create(
+		{
+			text : 'this is a dummy message'
+		},
+		function(err) {
+				if (err) {
+					console.log('Error loading dummy messages: ' + err);
+				}
+				else {
+					console.log('\nFinished populating dummy messages');
+				}
+			}
+		);
+});
+

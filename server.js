@@ -2,9 +2,11 @@
 
 var express = require('express'),
 	app = express(),
-	async = require('async');
+	async = require('async'),
+	artifacts = require('./config/artifacts');
 
 
+artifacts.findArtifacts();
 require('./config/db/mongo');
 require('./config/express')(app);
 require('./config/routes')(app);

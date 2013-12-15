@@ -4,22 +4,18 @@ require('prototypes');
 
 var mongoose = require('mongoose'),
 	uristring =	process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/boot-express',
-	mongoOptions = { db: { safe: true } };
+	mongoOptions = { db: { safe: true } },
+	artifacts = require('../artifacts'),
+	path = require('path');
 
 
 var loadModels = function() {
 
-	var wrench = require('wrench'),
-		path = require('path'),
-		files = wrench.readdirSyncRecursive(path.join(__dirname, '../../lib'));
-
 	console.log('\nLoading models...');
 
-	files.forEach(function(model) {
-		if (model.endsWith('Model.js')) {
-			require(path.join('../../lib/', model));
-			console.log('%s loaded', model);
-		}
+	artifacts.modelsPath.forEach(function(modelPath) {
+		require(path.join('../../lib/', modelPath));
+		console.log('%s loaded', modelPath);
 	});
 
 	console.log('\nModels loaded\n');
@@ -44,18 +40,18 @@ var setupMongoose = function() {
 };
 
 
-
 setupMongoose();
 loadModels();
 
-
 mongoose.connect(uristring, mongoOptions, function (err) {
+
 	if (err) {
 		console.log ('\nERROR connecting to: ' + uristring + '. ' + err);
 	} else {
 		console.log ('\nSuccessfully connected to: ' + uristring);
 		createDummyUsers();
 	}
+
 });
 
 
