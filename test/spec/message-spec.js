@@ -6,27 +6,27 @@ request = request('http://localhost:3001');
 
 
 describe('Message API', function () {
-	/*
-	describe('GET /users - list', function() {
 
-		it('returns a list of users', function (done) {
+
+	describe('GET /messages - list', function() {
+
+		it('returns a list of messages', function (done) {
 
 			request
-				.get('/api/users')
+				.get('/api/messages')
 				.expect(200)
 				.end(function(err, res) {
 					if (err) { return done(err); }
-					expect(res.body.length).toEqual(10);
+					expect(res.body.length).toEqual(2);
 					done();
 				});
 
 		});
 
-
-		it('filters the list of users', function (done) {
+		it('filters the list of messages', function (done) {
 
 			request
-				.get('/api/users?conditions={"age":{"$gt":30}}&fields={"_id":0,"__v":0}&options={"limit":2}')
+				.get('/api/messages?conditions={}&fields={"_id":0,"__v":0}&options={"limit":5}')
 				.expect(200)
 				.end(function(err, res) {
 					if (err) { return done(err); }
@@ -40,7 +40,7 @@ describe('Message API', function () {
 		it('returns status 400 when a malformed query', function (done) {
 
 			request
-				.get('/api/users?conditions=xxxxx')
+				.get('/api/messages?conditions=xxxxx')
 				.expect(400)
 				.end(function(err) {
 					if (err) { return done(err); }
@@ -54,24 +54,24 @@ describe('Message API', function () {
 
 
 
-	describe('GET /users - findById', function() {
+	describe('GET /messages - findById', function() {
 
-		it('returns the user if the user id exists', function (done) {
+		it('returns the message if the message id exists', function (done) {
 
 			var id;
 
 			request
-				.get('/api/users?conditions={"surname":"Simeone"}')
+				.get('/api/messages?conditions={"text": "this is a dummy message"}')
 				.end(function(err, res) {
 
 					id = res.body[0]._id;
 
 					request
-						.get('/api/users/' + id)
+						.get('/api/messages/' + id)
 						.expect(200)
 						.end(function(err, res) {
 							if (err) { return done(err); }
-							expect(res.body.surname).toEqual('Simeone');
+							expect(res.body.text).toEqual('this is a dummy message');
 							done();
 						});
 
@@ -80,12 +80,12 @@ describe('Message API', function () {
 
 
 
-		it('returns not-found error if the user id is wrong', function (done) {
+		it('returns not-found error if the message id is wrong', function (done) {
 
 			var id = 'not-found';
 
 			request
-				.get('/api/users/' + id)
+				.get('/api/messages/' + id)
 				.expect(404)
 				.end(function(err, res) {
 					if (err) { return done(err); }
@@ -96,12 +96,12 @@ describe('Message API', function () {
 		});
 
 
-		it('returns not-found error if the user id does not exist', function (done) {
+		it('returns not-found error if the message id does not exist', function (done) {
 
 			var id = 'xxa49eb764e2a1315d000001';
 
 			request
-				.get('/api/users/' + id)
+				.get('/api/messages/' + id)
 				.expect(404)
 				.end(function(err, res) {
 					if (err) { return done(err); }
@@ -117,26 +117,25 @@ describe('Message API', function () {
 
 
 
+	describe('PUT /messages - update', function() {
 
-	describe('PUT /users - update', function() {
+		it('retrieves and updates a message', function (done) {
 
-		it('retrieves and updates a user', function (done) {
-
-			var simeone;
+			var myMessage;
 
 			request
-				.get('/api/users?conditions={"surname":"Simeone"}')
+				.get('/api/messages?conditions={"text": "testing"}')
 				.end(function(err, res) {
 
-					simeone = res.body[0];
-					simeone.age = 41;
+					myMessage = res.body[0];
+					myMessage.text = 'testing updated';
 
 					request
-						.put('/api/users/' + simeone._id)
-						.send(simeone)
+						.put('/api/messages/' + myMessage._id)
+						.send(myMessage)
 						.end(function(err, res) {
 							if (err) { return done(err); }
-							expect(res.body.age).toEqual(41);
+							expect(res.body.text).toEqual('testing updated');
 							done();
 						});
 
@@ -144,47 +143,22 @@ describe('Message API', function () {
 
 		});
 
-
-		it('fails updading wrong age', function (done) {
-
-			var simeone;
-
-			request
-				.get('/api/users?conditions={"surname":"Simeone"}')
-				.end(function(err, res) {
-
-					simeone = res.body[0];
-					simeone.age = 'abc';
-
-					request
-						.put('/api/users/' + simeone._id)
-						.send(simeone)
-						.expect(400)
-						.end(function(err, res) {
-							if (err) { return done(err); }
-							expect(res.body.code).toEqual('update-error');
-							done();
-						});
-
-				});
-
-		});
 
 
 		it('fails updading an user id that does not exist', function (done) {
 
-			var simeone;
+			var myMessage;
 
 			request
-				.get('/api/users?conditions={"surname":"Simeone"}')
+				.get('/api/messages?conditions={"text": "this is a dummy message"}')
 				.end(function(err, res) {
 
-					simeone = res.body[0];
-					simeone.age = 'abc';
+					myMessage = res.body[0];
+					myMessage.text = 'updated text';
 
 					request
-						.put('/api/users/xxa49eb764e2a1315d000001')
-						.send(simeone)
+						.put('/api/messages/xxa49eb764e2a1315d000001')
+						.send(myMessage)
 						.expect(404)
 						.end(function(err, res) {
 							if (err) { return done(err); }
@@ -197,9 +171,8 @@ describe('Message API', function () {
 		});
 
 
-
 	});
-	*/
+
 
 
 	describe('POST /messages - create', function() {
@@ -226,33 +199,30 @@ describe('Message API', function () {
 	});
 
 
-	/*
-	describe('DEL /users - delete', function() {
+	describe('DEL /messages - delete', function() {
 
-		it('creates and deletes a user', function (done) {
+		it('creates and deletes a message', function (done) {
 
-			var deleteUser = {
-				'name': 'delete',
-				'surname': 'surname',
-				'age': 23
+			var deleteMessage = {
+				'text': 'message deleted'
 			};
 
 
 			request
-				.post('/api/users')
-				.send(deleteUser)
+				.post('/api/messages')
+				.send(deleteMessage)
 				.expect(200)
 				.end(function(err, res) {
 					if (err) { return done(err); }
 
-					deleteUser = res.body;
+					deleteMessage = res.body;
 
 					request
-						.del('/api/users/' + deleteUser._id)
+						.del('/api/messages/' + deleteMessage._id)
 						.expect(200)
 						.end(function(err, res) {
 							if (err) { return done(err); }
-							expect(res.body._id).toEqual(deleteUser._id);
+							expect(res.body._id).toEqual(deleteMessage._id);
 							done();
 						});
 
@@ -260,14 +230,14 @@ describe('Message API', function () {
 
 
 
-		}); // end - it creates and deletes a user
+		}); // end - it creates and deletes a message
 
 
 
-		it('fails deleting an user id that does not exist', function (done) {
+		it('fails deleting a message id that does not exist', function (done) {
 
 			request
-				.del('/api/users/xxa49eb764e2a1315d000001')
+				.del('/api/messages/xxa49eb764e2a1315d000001')
 				.expect(404)
 				.end(function(err, res) {
 					if (err) { return done(err); }
@@ -278,8 +248,7 @@ describe('Message API', function () {
 		});
 
 
-	}); // end - describe DEL /users - delete
-	*/
+	}); // end - describe DEL /messages - delete
 
 
 });

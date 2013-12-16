@@ -7,7 +7,8 @@ var mongoose = require('mongoose'),
 
 
 var	modelsPath = [],
-	routesPath = [];
+	routesPath = [],
+	defaultRoutesModel = null;
 
 
 exports.findArtifacts = function() {
@@ -38,17 +39,18 @@ exports.routesPath = routesPath;
 exports.defaultRoutesModel = function() {
 
 	var modelNames;
-	var defaultRoutesModel = {};
+	
+	if (defaultRoutesModel !== null) { return defaultRoutesModel; }
 
 	console.log('\nConfiguring default routes per model...');
 
+	defaultRoutesModel = {};
 	modelNames = mongoose.modelNames();
 	modelNames.forEach(function(modelName) {
 		defaultRoutesModel[morph.toDashed(modelName) + 's'] = modelName;
 	});
 
 	console.log(defaultRoutesModel);
-
 	console.log('\nConfigured default routes per model');
 
 	return defaultRoutesModel;

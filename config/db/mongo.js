@@ -24,7 +24,7 @@ var loadModels = function() {
 
 var createDummyUsers = function() {
 	console.log('\nLoading dummy users...');
-	require('./dummyUsers');
+	require('./dummyData');
 };
 
 

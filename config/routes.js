@@ -26,8 +26,10 @@ function existModel(req, res, next) {
 	if (!defaultRoutesModel.hasOwnProperty(req.params.model)) {
 		res.json(404, {'code': 'collection-not-found', 'message' : 'Collection Not Found'});
 	}
+	else {
+		next();
+	}
 
-	next();
 }
 
 
