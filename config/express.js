@@ -1,7 +1,8 @@
 'use strict';
 
 var express = require('express'),
-	path = require('path');
+	path = require('path'),
+	cors = require('cors');
 
 
 module.exports = function (app) {
@@ -22,7 +23,9 @@ module.exports = function (app) {
 		app.use(express.logger('dev'));
 		app.use(express.bodyParser());
 		app.use(express.methodOverride());
+		app.use(cors());
 		app.use(app.router);
+		app.options('*', cors());
 
 	});
 
