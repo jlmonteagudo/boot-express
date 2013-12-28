@@ -3,7 +3,9 @@
 require('prototypes');
 
 var mongoose = require('mongoose'),
-	uristring =	process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/boot-express',
+	config = require('../config')[process.env.NODE_ENV],
+	log = require('../log'),
+	uristring =	process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || config.db,
 	mongoOptions = { db: { safe: true } },
 	artifacts = require('../artifacts'),
 	path = require('path');
@@ -11,19 +13,19 @@ var mongoose = require('mongoose'),
 
 var loadModels = function() {
 
-	console.log('\nLoading models...');
+	log.info('Loading models...');
 
 	artifacts.modelsPath.forEach(function(modelPath) {
 		require(path.join('../../lib/', modelPath));
-		console.log('%s loaded', modelPath);
+		log.info('%s loaded', modelPath);
 	});
 
-	console.log('\nModels loaded\n');
+	log.info('Models loaded\n');
 
 };
 
 var createDummyUsers = function() {
-	console.log('\nLoading dummy users...');
+	log.info('Loading dummy users...');
 	require('./dummyData');
 };
 
@@ -46,9 +48,9 @@ loadModels();
 mongoose.connect(uristring, mongoOptions, function (err) {
 
 	if (err) {
-		console.log ('\nERROR connecting to: ' + uristring + '. ' + err);
+		log.error('ERROR connecting to: ' + uristring + '. ' + err);
 	} else {
-		console.log ('\nSuccessfully connected to: ' + uristring);
+		log.info('Successfully connected to: ' + uristring);
 		createDummyUsers();
 	}
 

@@ -189,7 +189,6 @@ describe('Message API', function () {
 				.expect(200)
 				.end(function(err, res) {
 					if (err) { return done(err); }
-					console.info(res);
 					expect(res.body.text).toEqual('this is a test message');
 					done();
 				});

@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Message = mongoose.model('Message');
+	Message = mongoose.model('Message'),
+	log = require('../log');
 
 User.find({}).remove(function() {
 	User.create(
@@ -110,10 +111,10 @@ User.find({}).remove(function() {
 		},
 		function(err) {
 				if (err) {
-					console.log('Error loading dummy users: ' + err);
+					log.error('Error loading dummy users: ' + err);
 				}
 				else {
-					console.log('\nFinished populating dummy users');
+					log.info('Finished populating dummy users');
 				}
 			}
 		);
@@ -131,10 +132,10 @@ Message.find({}).remove(function() {
 		},
 		function(err) {
 				if (err) {
-					console.log('Error loading dummy messages: ' + err);
+					log.error('Error loading dummy messages: ' + err);
 				}
 				else {
-					console.log('\nFinished populating dummy messages');
+					log.info('Finished populating dummy messages');
 				}
 			}
 		);

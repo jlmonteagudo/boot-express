@@ -2,19 +2,22 @@
 
 require('prototypes');
 
+var	log = require('./log');
+
+
 function loadRoutes(app) {
 
 	var arfifacts = require('./artifacts'),
 		path = require('path');
 
-	console.log('\nLoading routes...');
+	log.info('Loading routes...');
 
 	arfifacts.routesPath.forEach(function(routePath) {
 		require(path.join('../lib/', routePath))(app);
-		console.log('%s loaded', routePath);
+		log.info('%s loaded', routePath);
 	});
 
-	console.log('\nRoutes loaded\n');
+	log.info('Routes loaded');
 
 }
 

@@ -3,7 +3,8 @@
 require('prototypes');
 
 var mongoose = require('mongoose'),
-	morph = require('morph');
+	morph = require('morph'),
+	log = require('./log');
 
 
 var	modelsPath = [],
@@ -18,15 +19,15 @@ exports.findArtifacts = function() {
 		files = wrench.readdirSyncRecursive(path.join(__dirname, '../lib'));
 
 
-	console.log('\nFinding artifacts...');
+	log.info('Finding artifacts...');
 
 	files.forEach(function(artifactPath) {
 		if (artifactPath.endsWith('Model.js')) {
 			modelsPath.push(artifactPath);
-			console.log('found model ' + artifactPath);
+			log.info('found model ' + artifactPath);
 		} else if (artifactPath.endsWith('Routes.js')) {
 			routesPath.push(artifactPath);
-			console.log('found route ' + artifactPath);
+			log.info('found route ' + artifactPath);
 		}
 	});
 
@@ -42,7 +43,7 @@ exports.defaultRoutesModel = function() {
 	
 	if (defaultRoutesModel !== null) { return defaultRoutesModel; }
 
-	console.log('\nConfiguring default routes per model...');
+	log.info('Configuring default routes per model...');
 
 	defaultRoutesModel = {};
 	modelNames = mongoose.modelNames();
@@ -50,8 +51,8 @@ exports.defaultRoutesModel = function() {
 		defaultRoutesModel[morph.toDashed(modelName) + 's'] = modelName;
 	});
 
-	console.log(defaultRoutesModel);
-	console.log('\nConfigured default routes per model');
+	log.info(defaultRoutesModel);
+	log.info('Configured default routes per model');
 
 	return defaultRoutesModel;
 

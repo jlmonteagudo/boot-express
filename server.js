@@ -1,8 +1,9 @@
 'use strict';
 
-var express = require('express'),
-	app = express(),
-	async = require('async'),
+var app = require('express')(),
+	server = require('http').createServer(app),
+	io = require('./config/socket'),
+	log = require('./config/log'),
 	artifacts = require('./config/artifacts');
 
 
@@ -14,6 +15,8 @@ require('./config/routes')(app);
 
 // Start server
 var port = process.env.PORT || 3000;
-app.listen(port, function () {
-	console.log('\nExpress server listening on port %d in %s mode', port, app.get('env'));
+server.listen(port, function () {
+	log.info('Express server listening on port %d in %s mode', port, app.get('env'));
 });
+
+io.listen(server);
