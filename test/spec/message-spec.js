@@ -10,7 +10,7 @@ describe('Message API', function () {
 
 	describe('GET /messages - list', function() {
 
-		it('returns a list of messages', function (done) {
+		it('should return a list of messages', function (done) {
 
 			request
 				.get('/api/messages')
@@ -23,7 +23,7 @@ describe('Message API', function () {
 
 		});
 
-		it('filters the list of messages', function (done) {
+		it('should filter the list of messages', function (done) {
 
 			request
 				.get('/api/messages?conditions={}&fields={"_id":0,"__v":0}&options={"limit":5}')
@@ -37,7 +37,7 @@ describe('Message API', function () {
 		});
 
 
-		it('returns status 400 when a malformed query', function (done) {
+		it('should return status 400 when a malformed query', function (done) {
 
 			request
 				.get('/api/messages?conditions=xxxxx')
@@ -56,7 +56,7 @@ describe('Message API', function () {
 
 	describe('GET /messages - findById', function() {
 
-		it('returns the message if the message id exists', function (done) {
+		it('should return the message if the message id exists', function (done) {
 
 			var id;
 
@@ -80,7 +80,7 @@ describe('Message API', function () {
 
 
 
-		it('returns not-found error if the message id is wrong', function (done) {
+		it('should return not-found error if the message id is wrong', function (done) {
 
 			var id = 'not-found';
 
@@ -96,7 +96,7 @@ describe('Message API', function () {
 		});
 
 
-		it('returns not-found error if the message id does not exist', function (done) {
+		it('should return not-found error if the message id does not exist', function (done) {
 
 			var id = 'xxa49eb764e2a1315d000001';
 
@@ -119,7 +119,7 @@ describe('Message API', function () {
 
 	describe('PUT /messages - update', function() {
 
-		it('retrieves and updates a message', function (done) {
+		it('should retrieve and updates a message', function (done) {
 
 			var myMessage;
 
@@ -145,7 +145,7 @@ describe('Message API', function () {
 
 
 
-		it('fails updading an user id that does not exist', function (done) {
+		it('should fail updading an user id that does not exist', function (done) {
 
 			var myMessage;
 
@@ -177,7 +177,7 @@ describe('Message API', function () {
 
 	describe('POST /messages - create', function() {
 
-		it('creates a new message', function (done) {
+		it('should create a new message', function (done) {
 
 			var sample = {
 				'text': 'this is a test message'
@@ -200,7 +200,7 @@ describe('Message API', function () {
 
 	describe('DEL /messages - delete', function() {
 
-		it('creates and deletes a message', function (done) {
+		it('should create and delete a message', function (done) {
 
 			var deleteMessage = {
 				'text': 'message deleted'
@@ -233,7 +233,7 @@ describe('Message API', function () {
 
 
 
-		it('fails deleting a message id that does not exist', function (done) {
+		it('should fail deleting a message id that does not exist', function (done) {
 
 			request
 				.del('/api/messages/xxa49eb764e2a1315d000001')

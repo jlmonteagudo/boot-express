@@ -9,7 +9,7 @@ describe('User API', function () {
 
 	describe('GET /users - list', function() {
 
-		it('returns a list of users', function (done) {
+		it('should return a list of users', function (done) {
 
 			request
 				.get('/api/users')
@@ -23,7 +23,7 @@ describe('User API', function () {
 		});
 
 
-		it('filters the list of users', function (done) {
+		it('should filter the list of users', function (done) {
 
 			request
 				.get('/api/users?conditions={"age":{"$gt":30}}&fields={"_id":0,"__v":0}&options={"limit":2}')
@@ -37,7 +37,7 @@ describe('User API', function () {
 		});
 
 
-		it('returns status 400 when a malformed query', function (done) {
+		it('should return status 400 when a malformed query', function (done) {
 
 			request
 				.get('/api/users?conditions=xxxxx')
@@ -56,7 +56,7 @@ describe('User API', function () {
 
 	describe('GET /users - findById', function() {
 
-		it('returns the user if the user id exists', function (done) {
+		it('should return the user if the user id exists', function (done) {
 
 			var id;
 
@@ -80,7 +80,7 @@ describe('User API', function () {
 
 
 
-		it('returns not-found error if the user id is wrong', function (done) {
+		it('should return not-found error if the user id is wrong', function (done) {
 
 			var id = 'not-found';
 
@@ -96,7 +96,7 @@ describe('User API', function () {
 		});
 
 
-		it('returns not-found error if the user id does not exist', function (done) {
+		it('should return not-found error if the user id does not exist', function (done) {
 
 			var id = 'xxa49eb764e2a1315d000001';
 
@@ -120,7 +120,7 @@ describe('User API', function () {
 
 	describe('PUT /users - update', function() {
 
-		it('retrieves and updates a user', function (done) {
+		it('should retrieve and update an user', function (done) {
 
 			var simeone;
 
@@ -145,7 +145,7 @@ describe('User API', function () {
 		});
 
 
-		it('fails updading wrong age', function (done) {
+		it('should fail updading wrong age', function (done) {
 
 			var simeone;
 
@@ -171,7 +171,7 @@ describe('User API', function () {
 		});
 
 
-		it('fails updading an user id that does not exist', function (done) {
+		it('should fail updading an user id that does not exist', function (done) {
 
 			var simeone;
 
@@ -204,12 +204,15 @@ describe('User API', function () {
 
 	describe('POST /users - create', function() {
 
-		it('creates a new user', function (done) {
+		it('should create a new user', function (done) {
 
 			var guilavogui = {
+				'username': 'guilavogui',
+				'password': 'guilavogui',
 				'name': 'Joshua',
 				'surname': 'Guilavogui',
-				'age': 23
+				'age': 23,
+				'email': 'guilavogui@atm.com'
 			};
 
 			request
@@ -225,12 +228,15 @@ describe('User API', function () {
 		});
 
 
-		it('fails creating a user with wrong data', function (done) {
+		it('should fail creating an user with wrong data', function (done) {
 
 			var guilavogui = {
+				'username': 'guilavogui',
+				'password': 'guilavogui',
 				'name': 'Joshua',
 				'surname': 'Guilavogui',
-				'age': 'abc'
+				'age': 'abc',
+				'email': 'guilavogui@atm.com'
 			};
 
 			request
@@ -252,12 +258,15 @@ describe('User API', function () {
 
 	describe('DEL /users - delete', function() {
 
-		it('creates and deletes a user', function (done) {
+		it('should create and delete an user', function (done) {
 
 			var deleteUser = {
+				'username': 'delete',
+				'password': 'delete',
 				'name': 'delete',
 				'surname': 'surname',
-				'age': 23
+				'age': 23,
+				'email': 'delete@atm.com'
 			};
 
 
@@ -283,11 +292,11 @@ describe('User API', function () {
 
 
 
-		}); // end - it creates and deletes a user
+		}); // end - it creates and deletes an user
 
 
 
-		it('fails deleting an user id that does not exist', function (done) {
+		it('should fail deleting an user id that does not exist', function (done) {
 
 			request
 				.del('/api/users/xxa49eb764e2a1315d000001')

@@ -2,6 +2,7 @@
 
 var express = require('express'),
 	path = require('path'),
+	passport = require('passport'),
 	cors = require('cors');
 
 
@@ -22,6 +23,7 @@ module.exports = function (app) {
 		app.set('view engine', 'html');
 		app.use(express.logger('dev'));
 		app.use(express.bodyParser());
+		app.use(passport.initialize());
 		app.use(express.methodOverride());
 		app.use(cors());
 		app.use(app.router);

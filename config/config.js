@@ -1,5 +1,8 @@
 
 module.exports = {
+
+	tokenLife: 3600,
+
 	
 	development: {
 		db: 'mongodb://localhost/boot-express-dev'

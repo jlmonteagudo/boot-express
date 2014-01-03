@@ -8,9 +8,13 @@
     "prototypes": "~0.1.7",
     "async": "~0.2.9",
     "lodash": "~2.4.1",
-    "morph": "~0.2.0",
     "socket.io": "~0.9.16",
-    "winston": "~0.7.2"
+    "winston": "~0.7.2",
+    "passport": "~0.1.17",
+    "passport-http": "~0.2.2",
+    "passport-oauth2-client-password": "~0.1.1",
+    "passport-http-bearer": "~1.0.1",
+    "oauth2orize": "~1.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

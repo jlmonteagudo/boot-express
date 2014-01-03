@@ -2,14 +2,11 @@
 
 require('prototypes');
 
-var mongoose = require('mongoose'),
-	morph = require('morph'),
-	log = require('./log');
+var log = require('./log');
 
 
 var	modelsPath = [],
-	routesPath = [],
-	defaultRoutesModel = null;
+	routesPath = [];
 
 
 exports.findArtifacts = function() {
@@ -36,25 +33,3 @@ exports.findArtifacts = function() {
 exports.modelsPath = modelsPath;
 
 exports.routesPath = routesPath;
-
-exports.defaultRoutesModel = function() {
-
-	var modelNames;
-	
-	if (defaultRoutesModel !== null) { return defaultRoutesModel; }
-
-	log.info('Configuring default routes per model...');
-
-	defaultRoutesModel = {};
-	modelNames = mongoose.modelNames();
-	modelNames.forEach(function(modelName) {
-		defaultRoutesModel[morph.toDashed(modelName) + 's'] = modelName;
-	});
-
-	log.info(defaultRoutesModel);
-	log.info('Configured default routes per model');
-
-	return defaultRoutesModel;
-
-};
-

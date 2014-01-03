@@ -11,6 +11,7 @@ artifacts.findArtifacts();
 require('./config/db/mongo');
 require('./config/express')(app);
 require('./config/routes')(app);
+require('./lib/security/auth');
 
 
 // Start server
